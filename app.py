@@ -6,7 +6,7 @@ from flask_limiter.util import get_remote_address
 from ddos_limiter import limiter
 
 app = Flask(__name__)
-CORS(app)  # Enable Cross-Origin Resource Sharing
+CORS(app, resources={r"/*": {"origins": "*"}})  # Enable Cross-Origin Resource Sharing
 
 # limiter = Limiter(app, key_func=get_remote_address)
 # Register Routes
