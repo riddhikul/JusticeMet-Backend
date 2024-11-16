@@ -1,3 +1,4 @@
+from bson import ObjectId
 from flask import Blueprint, json, request, jsonify
 from db_config import get_db
 from models import case_schema
@@ -44,11 +45,12 @@ def signup_user():
     if existing_user:
         return jsonify({"error": "Email is already registered"}), 409
 
-    # Save user details (except password)
+    # Save user details (initialize 'case_ids' as an empty array)
     user = {
         "name": data['name'],
         "email": data['email'],
         "profession": data['profession'],
+        "case_ids": []  # Initialize as an empty array
     }
     
     # Insert into MongoDB
@@ -123,10 +125,10 @@ def add_case():
         articles_violated = bot_data.get("articles_violated", [])
         points_of_violation = bot_data.get("points_of_violation", [])
         comment = bot_data.get("comment")
-        print(verdict)
-        print(articles_violated)
-        print(points_of_violation)
-        print(comment)
+        # print(verdict)
+        # print(articles_violated)
+        # print(points_of_violation)
+        # print(comment)
         verdict = "not guilty" if verdict == "no" else "guilty"
         # Update the case document with bot response
         cases_collection.update_one(
